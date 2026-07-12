@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}ცოდნის დაფა{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="{{ url_for('main.index') }}">ცოდნის დაფა</a>
+  <nav class="nav">
+    {% if user %}
+      <a href="{{ url_for('main.add_resource') }}">მასალის დამატება</a>
+      <span class="nav-user">{{ user.full_name }}</span>
+      <a href="{{ url_for('main.logout') }}">გასვლა</a>
+    {% else %}
+      <a href="{{ url_for('main.login') }}">შესვლა</a>
+      <a href="{{ url_for('main.register') }}" class="btn-accent">რეგისტრაცია</a>
+    {% endif %}
+  </nav>
+</header>
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-list">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <p>სასკოლო ცოდნის გაზიარების პლატფორმა</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}რეგისტრაცია — ცოდნის დაფა{% endblock %}
+{% block content %}
+
+<section class="form-page">
+  <h2>რეგისტრაცია</h2>
+  <form method="post" novalidate class="site-form">
+    {{ form.hidden_tag() }}
+
+    <label for="full_name">{{ form.full_name.label }}</label>
+    {{ form.full_name(id="full_name") }}
+    {% for error in form.full_name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    <label for="email">{{ form.email.label }}</label>
+    {{ form.email(id="email") }}
+    {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    <label for="password">{{ form.password.label }}</label>
+    {{ form.password(id="password") }}
+    {% for error in form.password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    <label for="confirm_password">{{ form.confirm_password.label }}</label>
+    {{ form.confirm_password(id="confirm_password") }}
+    {% for error in form.confirm_password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    {{ form.submit(class="btn-accent") }}
+  </form>
+  <p class="form-footnote">უკვე გაქვს ანგარიში? <a href="{{ url_for('main.login') }}">შესვლა</a></p>
+</section>
+
+{% endblock %}

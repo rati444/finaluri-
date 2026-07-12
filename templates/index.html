@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}ცოდნის დაფა — მთავარი{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <h1>ცოდნის დაფა</h1>
+  <p>სასკოლო მასალების გაზიარების სივრცე — კონსპექტები, დავალებები და პრეზენტაციები ერთ ადგილას.</p>
+</section>
+
+<section class="filters">
+  <form method="get" class="filter-form">
+    <input type="text" name="q" placeholder="ძებნა სათაურით..." value="{{ query }}">
+
+    <select name="subject">
+      <option value="all">ყველა საგანი</option>
+      {% for s in subjects %}
+        <option value="{{ s }}" {% if s == selected_subject %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="semester">
+      <option value="all">ყველა სემესტრი</option>
+      {% for s in semesters %}
+        <option value="{{ s }}" {% if s == selected_semester %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit" class="btn-accent">ძებნა</button>
+  </form>
+</section>
+
+<section class="resource-list">
+  {% if resources %}
+    {% for r in resources %}
+      <article class="resource-card">
+        <div class="resource-meta">
+          <span class="tag">{{ r.subject }}</span>
+          <span class="tag tag-muted">{{ r.semester }}</span>
+          <span class="tag tag-muted">{{ r.resource_type }}</span>
+        </div>
+        <h3>{{ r.title }}</h3>
+        <p class="resource-uploader">დაამატა: {{ r.uploader.full_name if r.uploader else "უცნობი" }}</p>
+
+        {% if user and (user.role == "admin" or user.id == r.uploader_id) %}
+          <form method="post" action="{{ url_for('main.delete_resource', resource_id=r.id) }}" class="inline-form">
+            <button type="submit" class="btn-danger">წაშლა</button>
+          </form>
+        {% endif %}
+      </article>
+    {% endfor %}
+  {% else %}
+    <p class="empty-state">მასალა ვერ მოიძებნა. იყავი პირველი, ვინც დაამატებს!</p>
+  {% endif %}
+</section>
+
+{% endblock %}

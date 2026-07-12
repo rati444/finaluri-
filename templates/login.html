@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}შესვლა — ცოდნის დაფა{% endblock %}
+{% block content %}
+
+<section class="form-page">
+  <h2>შესვლა</h2>
+  <form method="post" novalidate class="site-form">
+    {{ form.hidden_tag() }}
+
+    <label for="email">{{ form.email.label }}</label>
+    {{ form.email(id="email") }}
+    {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    <label for="password">{{ form.password.label }}</label>
+    {{ form.password(id="password") }}
+    {% for error in form.password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    {{ form.submit(class="btn-accent") }}
+  </form>
+  <p class="form-footnote">არ გაქვს ანგარიში? <a href="{{ url_for('main.register') }}">დარეგისტრირდი</a></p>
+</section>
+
+{% endblock %}

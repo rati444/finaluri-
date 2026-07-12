@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ცოდნის დაფა — სასკოლო ცოდნის გაზიარების პლატფორმა</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#22281f;
+    --muted:#5b6455;
+    --line:#e2e0d5;
+    --bg:#fbfaf6;
+    --panel:#f1efe4;
+    --green:#3f6b4c;
+    --green-dark:#2f5239;
+    --accent:#c8703f;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Noto Sans Georgian', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:'Noto Serif Georgian', serif;
+    margin:0;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Noto Serif Georgian',serif; font-weight:700; font-size:19px;}
+  .logo-dot{width:10px; height:10px; border-radius:50%; background:var(--green);}
+  .nav-links{display:flex; gap:26px; font-size:14.5px;}
+  .nav-links a{color:var(--muted);}
+  .nav-links a:hover{color:var(--ink);}
+  .btn{
+    font-family:'Noto Sans Georgian',sans-serif;
+    font-weight:600; font-size:14.5px;
+    border-radius:8px; padding:10px 20px;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{background:var(--green); color:#fff;}
+  .btn-primary:hover{background:var(--green-dark);}
+  .btn-outline{background:transparent; border-color:var(--line); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--green);}
+
+  /* HERO */
+  .hero{padding:88px 0 72px; border-bottom:1px solid var(--line);}
+  .eyebrow{font-size:13.5px; color:var(--green); font-weight:600; margin-bottom:16px;}
+  .hero h1{font-size:clamp(32px,4.6vw,52px); line-height:1.25; max-width:15ch;}
+  .hero p{font-size:17px; color:var(--muted); max-width:52ch; margin-top:20px;}
+  .hero-actions{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+
+  /* generic section */
+  section{padding:76px 0;}
+  .sec-head{max-width:620px; margin-bottom:44px;}
+  .sec-head .tag{font-size:13px; color:var(--accent); font-weight:600; margin-bottom:10px; display:block;}
+  .sec-head h2{font-size:clamp(24px,3vw,32px); line-height:1.3;}
+  .sec-head p{margin-top:14px; color:var(--muted); font-size:15.5px;}
+
+  .alt{background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+
+  /* card grids */
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .card{
+    background:var(--white); border:1px solid var(--line); border-radius:10px;
+    padding:24px 22px;
+  }
+  .card .num{font-size:12.5px; color:var(--accent); font-weight:600; display:block; margin-bottom:8px;}
+  .card h3{font-size:17px; margin-bottom:8px;}
+  .card p{font-size:14px; color:var(--muted); margin:0;}
+  .alt .card{background:var(--white);}
+
+  .icon-circle{
+    width:44px; height:44px; border-radius:50%; background:var(--panel);
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
+    border:1px solid var(--line); font-size:19px;
+  }
+  .alt .icon-circle{background:var(--white);}
+
+  .fcard{padding:20px; border:1px solid var(--line); border-radius:10px; background:var(--white);}
+  .fcard h3{font-size:15.5px; margin-bottom:8px;}
+  .fcard p{font-size:13.5px; color:var(--muted); margin:0;}
+
+  /* SEARCH DEMO */
+  .demo{background:var(--white); border:1px solid var(--line); border-radius:12px; padding:28px;}
+  .demo-input{
+    width:100%; padding:12px 15px; border:1px solid var(--line); border-radius:8px;
+    font-size:15px; font-family:'Noto Sans Georgian',sans-serif; margin-bottom:22px;
+  }
+  .demo-input:focus{outline:none; border-color:var(--green);}
+  .results{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .rcard{border:1px solid var(--line); border-radius:8px; padding:16px; background:var(--bg);}
+  .rcard .rtag{font-size:11.5px; color:var(--green); font-weight:600;}
+  .rcard h4{font-size:14.5px; margin:6px 0 4px; font-family:'Noto Serif Georgian',serif;}
+  .rcard .rmeta{font-size:12px; color:var(--muted);}
+  .rcard.hide{display:none;}
+  .no-results{grid-column:1/-1; text-align:center; color:var(--muted); font-size:14px; padding:20px 0; display:none;}
+
+  /* SECURITY */
+  .grid3-center{display:grid; grid-template-columns:repeat(3,1fr); gap:26px; text-align:center;}
+  .grid3-center h3{font-size:16px; margin-bottom:8px;}
+  .grid3-center p{font-size:13.5px; color:var(--muted); margin:0;}
+
+  /* CTA */
+  .cta{text-align:center;}
+  .cta h2{font-size:clamp(26px,3.4vw,34px); max-width:18ch; margin:0 auto 16px;}
+  .cta p{color:var(--muted); max-width:44ch; margin:0 auto 28px;}
+
+  footer{border-top:1px solid var(--line); padding:26px 0; font-size:13.5px; color:var(--muted);}
+  .footer-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  /* MODAL */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(34,40,31,.4);
+    display:none; align-items:center; justify-content:center; z-index:100;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--white); border-radius:10px; width:100%; max-width:380px;
+    padding:30px 28px; position:relative;
+  }
+  .modal h3{font-size:20px; margin-bottom:4px;}
+  .modal p.sub{font-size:13.5px; color:var(--muted); margin-bottom:22px;}
+  .modal label{display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; font-weight:600;}
+  .modal input{width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:7px; font-size:14px; font-family:'Noto Sans Georgian',sans-serif;}
+  .modal input:focus{outline:none; border-color:var(--green);}
+  .modal .btn-primary{width:100%; margin-top:22px; padding:12px;}
+  .modal-close{position:absolute; top:14px; right:14px; background:none; border:none; font-size:18px; color:var(--muted); cursor:pointer;}
+  .success-view{display:none; text-align:center;}
+  .success-view.show{display:block;}
+  .form-view.hide{display:none;}
+  .check{width:52px; height:52px; border-radius:50%; background:#e8f2ea; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;}
+  .check svg{width:24px; height:24px;}
+  .check path{stroke:var(--green); stroke-width:3; fill:none; stroke-linecap:round; stroke-linejoin:round;}
+
+  @media (max-width:820px){
+    .nav-links{display:none;}
+    .grid3, .grid4, .results, .grid3-center{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="logo-dot"></span> ცოდნის დაფა</div>
+    <div class="nav-links">
+      <a href="#konspektebi">კონსპექტები</a>
+      <a href="#vision">ხედვა</a>
+      <a href="#how">ფუნქციები</a>
+      <a href="#search-demo">ძიება</a>
+      <a href="#security">უსაფრთხოება</a>
+    </div>
+    <button class="btn btn-outline" onclick="openModal()">შესვლა</button>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">სასკოლო ცოდნის გაზიარების პლატფორმა</div>
+      <h1>იპოვე და გააზიარე ერთ სივრცეში</h1>
+      <p>კონსპექტები და დავალებები აღარ იკარგება ჩათებში. ერთი დაცული სივრცე მოსწავლეებისთვის — ატვირთე, იპოვე და ისწავლე ერთად.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="document.getElementById('search-demo').scrollIntoView({behavior:'smooth'})">დაიწყე ძიება</button>
+        <button class="btn btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">როგორ მუშაობს</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="konspektebi">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="tag">კონსპექტები</span>
+        <h2>ყველა საგნის კონსპექტი ერთად</h2>
+        <p>დაათვალიერე მოსწავლეების მიერ დამატებული მასალები საგნების მიხედვით — მუდმივად ახლდება.</p>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <span class="num">მათემატიკა</span>
+          <h3>ალგებრა და გეომეტრია</h3>
+          <p>განტოლებები, ტრიგონომეტრია და საკონტროლოებისთვის მომზადებული კონსპექტები ორივე სემესტრიდან.</p>
+        </div>
+        <div class="card">
+          <span class="num">ისტორია და ქართული</span>
+          <h3>ტექსტების ანალიზი</h3>
+          <p>ისტორიული მოვლენების მიმოხილვები და ლიტერატურული ნაწარმოებების განხილვები, თემებზე დაყოფილი.</p>
+        </div>
+        <div class="card">
+          <span class="num">ფიზიკა</span>
+          <h3>ფორმულები და მაგალითები</h3>
+          <p>ნიუტონის კანონებიდან დაწყებული, ამოხსნილი ამოცანებით და ილუსტრაციებით.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="vision">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="tag">ხედვა</span>
+        <h2>ერთ სივრცეში „იპოვე და გააზიარე"</h2>
+        <p>პლატფორმა, სადაც ყველა მოსწავლე ამატებს და პოულობს სასწავლო მასალებს ერთ ადგილას — ყოველთვის ხელმისაწვდომი, სწრაფად საპოვნელი.</p>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <div class="icon-circle">📤</div>
+          <h3>გააზიარე</h3>
+          <p>დაამატე კონსპექტები, დავალებები და რესურსები ერთ საერთო სივრცეში.</p>
+        </div>
+        <div class="card">
+          <div class="icon-circle">🔍</div>
+          <h3>იპოვე</h3>
+          <p>მოძებნე ნებისმიერი მასალა სახელით — წამებში.</p>
+        </div>
+        <div class="card">
+          <div class="icon-circle">🤝</div>
+          <h3>ისწავლე ერთად</h3>
+          <p>თანამშრომლობა და ცოდნის გაცვლა მასწავლებელსა და მოსწავლეებს შორის.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="tag">ფუნქციები</span>
+        <h2>როგორ იმუშავებს პლატფორმა</h2>
+        <p>მარტივი, მაგრამ სრულყოფილი — ყველაფერი, რაც მოსწავლეს სჭირდება, ერთ ადგილას.</p>
+      </div>
+      <div class="grid4">
+        <div class="fcard"><h3>უსაფრთხო წვდომა</h3><p>ნახე და დაამატე კონსპექტები დაცულ გარემოში.</p></div>
+        <div class="fcard"><h3>საგნობრივი კატეგორიზაცია</h3><p>მასალები ორგანიზებულია საგნისა და სემესტრის მიხედვით.</p></div>
+        <div class="fcard"><h3>სწრაფი ძიება</h3><p>ყველა რესურსი მარტივად საპოვნელია სახელით.</p></div>
+        <div class="fcard"><h3>მართვა და კონტროლი</h3><p>ავტორიზებული მომხმარებლები მართავენ და ახდენენ კონტროლს.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="search-demo">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="tag">„ძიება" — მთავარი ფუნქცია</span>
+        <h2>ცოდნის ნავიგაცია</h2>
+        <p>ძლიერი ძიების სისტემა საშუალებას აძლევს მოსწავლეებს იპოვონ მასალა სახელით — რამდენიმე წამში. სცადე ქვემოთ.</p>
+      </div>
+      <div class="demo">
+        <input class="demo-input" id="searchInput" type="text" placeholder="მოძებნე კონსპექტი, თემა ან ავტორი...">
+        <div class="results" id="resultsGrid">
+          <div class="rcard" data-title="კვადრატული განტოლებები">
+            <span class="rtag">მათემატიკა · სემესტრი 1</span>
+            <h4>კვადრატული განტოლებები</h4>
+            <div class="rmeta">კონსპექტი · ნ. კვარაცხელია</div>
+          </div>
+          <div class="rcard" data-title="საქართველოს გაერთიანება">
+            <span class="rtag">ისტორია · სემესტრი 2</span>
+            <h4>საქართველოს გაერთიანება</h4>
+            <div class="rmeta">დავალება · მ. ბერიძე</div>
+          </div>
+          <div class="rcard" data-title="ნიუტონის კანონები">
+            <span class="rtag">ფიზიკა · სემესტრი 1</span>
+            <h4>ნიუტონის კანონები</h4>
+            <div class="rmeta">კონსპექტი · გ. ლომიძე</div>
+          </div>
+          <div class="rcard" data-title="ვეფხისტყაოსანი — ანალიზი">
+            <span class="rtag">ქართული · სემესტრი 2</span>
+            <h4>ვეფხისტყაოსანი — ანალიზი</h4>
+            <div class="rmeta">დავალება · თ. მაისურაძე</div>
+          </div>
+          <div class="rcard" data-title="ტრიგონომეტრიის საფუძვლები">
+            <span class="rtag">მათემატიკა · სემესტრი 2</span>
+            <h4>ტრიგონომეტრიის საფუძვლები</h4>
+            <div class="rmeta">კონსპექტი · ე. წიკლაური</div>
+          </div>
+          <div class="rcard" data-title="XX საუკუნის მოვლენები">
+            <span class="rtag">ისტორია · სემესტრი 1</span>
+            <h4>XX საუკუნის მოვლენები</h4>
+            <div class="rmeta">კონსპექტი · ლ. ჯავახია</div>
+          </div>
+          <div class="no-results" id="noResults">მასალა ვერ მოიძებნა — სცადე სხვა საძიებო სიტყვა.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="security">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="tag">საფუძველი</span>
+        <h2>უსაფრთხოება და ორგანიზაცია</h2>
+        <p>პლატფორმა აგებულია უსაფრთხოებისა და მონაცემთა დაცვის პრინციპებზე.</p>
+      </div>
+      <div class="grid3-center">
+        <div><div class="icon-circle" style="margin-inline:auto;">🔐</div><h3>ავთენტიფიკაცია</h3><p>უსაფრთხო შესვლა და ავტორიზაცია ყველა მომხმარებლისთვის.</p></div>
+        <div><div class="icon-circle" style="margin-inline:auto;">📁</div><h3>ერთი ადგილი</h3><p>დამატება და მართვა — ყველაფერი ერთ ნაკადში.</p></div>
+        <div><div class="icon-circle" style="margin-inline:auto;">🛡️</div><h3>მონაცემთა დაცვა</h3><p>პერსონალური ინფორმაცია და მასალები დაცულია.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>ცოდნა ერთად უფრო შორს მიდის</h2>
+      <p>შემოუერთდი პლატფორმას, სადაც ყოველი კონსპექტი და დავალება მარტივად საპოვნელია — ყველასთვის, ყოველთვის.</p>
+      <button class="btn btn-primary" onclick="openModal()">დაიწყე ახლავე</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 ცოდნის დაფა — სასკოლო პროექტი</span>
+    <span>დამზადებულია მოსწავლეებისთვის, მოსწავლეების მიერ</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="დახურვა">✕</button>
+    <div class="form-view" id="formView">
+      <h3>შესვლა</h3>
+      <p class="sub">გამოიყენე შენი სასკოლო ანგარიში</p>
+      <form onsubmit="handleLogin(event)">
+        <label for="email">ელფოსტა</label>
+        <input id="email" type="text" placeholder="student@school.edu.ge">
+        <label for="pass">პაროლი</label>
+        <input id="pass" type="password" placeholder="••••••••">
+        <button type="submit" class="btn btn-primary">შესვლა</button>
+      </form>
+    </div>
+    <div class="success-view" id="successView">
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></div>
+      <h3 style="text-align:center;">მოგესალმებით!</h3>
+      <p class="sub" style="text-align:center; margin-bottom:0;">შესვლა წარმატებით დასრულდა</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // მოდალის გახსნა/დახურვა - შესვლის ფორმისთვის
+  function openModal(){
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('formView').classList.remove('hide');
+    document.getElementById('successView').classList.remove('show');
+  }
+  function closeModal(){
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+  document.getElementById('modalOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeModal();
+  });
+
+  function handleLogin(e){
+    // backend-თან ჯერ არ არის დაკავშირებული ეს ფორმა, უბრალოდ success სურათს ვაჩვენებ
+    // TODO: fetch() გავუკეთო /api/auth/login-ზე როცა დროზე მოვასწრებ
+    e.preventDefault();
+    document.getElementById('formView').classList.add('hide');
+    document.getElementById('successView').classList.add('show');
+    setTimeout(closeModal, 1200);
+  }
+
+  // ძიება რესურსების სექციაში - მხოლოდ სახელით
+  var searchInput = document.getElementById('searchInput');
+  var cards = document.querySelectorAll('.rcard');
+  var noResults = document.getElementById('noResults');
+
+  function filterCards(){
+    var q = searchInput.value.trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function(card){
+      var show = !q || card.dataset.title.toLowerCase().includes(q);
+      card.classList.toggle('hide', !show);
+      if(show) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+  searchInput.addEventListener('input', filterCards);
+</script>
+
+</body>
+</html>

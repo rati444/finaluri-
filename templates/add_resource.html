@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}მასალის დამატება — ცოდნის დაფა{% endblock %}
+{% block content %}
+
+<section class="form-page">
+  <h2>მასალის დამატება</h2>
+  <form method="post" novalidate class="site-form">
+    {{ form.hidden_tag() }}
+
+    <label for="title">{{ form.title.label }}</label>
+    {{ form.title(id="title") }}
+    {% for error in form.title.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+
+    <label for="subject">{{ form.subject.label }}</label>
+    {{ form.subject(id="subject") }}
+
+    <label for="semester">{{ form.semester.label }}</label>
+    {{ form.semester(id="semester") }}
+
+    <label for="resource_type">{{ form.resource_type.label }}</label>
+    {{ form.resource_type(id="resource_type") }}
+
+    {{ form.submit(class="btn-accent") }}
+  </form>
+</section>
+
+{% endblock %}
